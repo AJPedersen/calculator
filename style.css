@@ -1,0 +1,69 @@
+h1 {
+	text-align: center;
+	text-decoration: underline;
+	font-size: 3em;
+	font-family: 'Gloria Hallelujah', cursive;
+
+}
+#calcBody {
+	border: 2px solid black;
+	border-radius: 5px;
+	width: 400px;
+	height: 300px;
+	margin: 1% auto;
+	padding: 2%;
+}
+
+#output{
+	height: 30px;
+	width: 395px;
+	color: black;
+	outline: none;
+	border: 1px solid black;
+	border-radius: 5px;
+	font-size: 1em;
+	display: inline-block;
+	margin: 20 auto;
+
+}
+
+.calcButton {
+	height: 10%;
+	width: 25%;
+	color: black;
+	outline: none;
+	border: 1px solid black;
+	border-radius: 5px;
+	font-size: 1em;
+	display: inline-block;
+	margin: 2%;
+	background: rgba(233, 233, 233,1);
+}
+
+.calcButtonOp {
+	height: 10%;
+	width: 10%;
+	color: black;
+	outline: none;
+	border: 1px solid black;
+	border-radius: 5px;
+	font-size: 1em;
+	display: inline-block;
+	margin: 2%;
+	background: rgba(233, 233, 233,1);
+
+}
+
+.calcButton:active, .calcButtonOp:active {
+	background: white;
+}
+
+#equals {
+	background: black;
+	color: white;
+}
+
+#equals:active {
+	background: white;
+	color: black;
+}
