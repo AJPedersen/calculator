@@ -58,12 +58,12 @@ h1 {
 	background: white;
 }
 
-#equals {
+#equals, #clear {
 	background: black;
 	color: white;
 }
 
-#equals:active {
+#equals:active, #clear:active {
 	background: white;
 	color: black;
 }

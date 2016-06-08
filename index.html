@@ -2,30 +2,36 @@
 <head>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<link href='https://fonts.googleapis.com/css?family=Gloria+Hallelujah' rel='stylesheet' type='text/css'>
+	<script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
 </head>
 <body>
 	<h1>La Calculadora Buenisima!</h1>
 	<form id='calcBody'>
-		<input id="output" type="text"  >
-		<input class="calcButton" type="button" id="b1" value="1">
-		<input class="calcButton" type="button" id="2" value="2">
-		<input class="calcButton" type="button" id="3" value="3">
-		<input class="calcButton" type="button" id="4" value="4">
-		<input class="calcButton" type="button" id="5" value="5">
-		<input class="calcButton" type="button" id="6" value="6">
-		<input class="calcButton" type="button" id="7" value="7">
-		<input class="calcButton" type="button" id="8" value="8">
-		<input class="calcButton" type="button" id="9" value="9">
-		<input class="calcButton" type="button" id="0" value="0">
+
+		<div id="output" type="text"></div>
+		<!-- These need to be div's not input's -->
+		<div class="calcButton" type="button" id="b1" value="1">1</div>
+		<div class="calcButton" type="button" id="b2" value="2">2</div>
+		<div class="calcButton" type="button" id="3" value="3">3</div>
+		<div class="calcButton" type="button" id="4" value="4">4</div>
+		<div class="calcButton" type="button" id="5" value="5">5</div>
+		<div class="calcButton" type="button" id="6" value="6">6</div>
+		<div class="calcButton" type="button" id="7" value="7">7</div>
+		<div class="calcButton" type="button" id="8" value="8">8</div>
+		<div class="calcButton" type="button" id="9" value="9">9</div>
+		<div class="calcButton" type="button" id="0" value="0">0</div>
 		
-		<input class="calcButton" type="button" name="." value=".">
-		<input class="calcButton" id="equals" type="button" name="equals" value="=">
-		<input class="calcButtonOp" type="button" name="plus" value="+">
-		<input class="calcButtonOp" type="button" name="minus" value="-">
-		<input class="calcButtonOp" type="button" name="divide" value="/">
-		<input class="calcButtonOp" type="button" name="multiply" value="*">
+		<input class="calcButton" type="button" id='clear' name="clear" value="CA">
+		<input class="calcButton" type="button" id="equals" name="equals" value="=">
+		
+		<input class="calcButton" type="button" id='period' name="." value=".">
+		<input class="calcButtonOp" type="button" id='plus' name="plus" value="+">
+		<input class="calcButtonOp" type="button" id='minus' name="minus" value="-">
+		<input class="calcButtonOp" type="button" id='divide' name="divide" value="/">
+		<input class="calcButtonOp" type="button" id='multiply' name="multiply" value="*">
+		
 
 	</form>
-<script src="main.js"></script>
 </body>
+<script src="main.js"></script>
 </html>
