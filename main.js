@@ -1,27 +1,25 @@
-//this function needs to take whatever id is passed to it
-$(function addNum(){
-	$(".calcButton").click(function() {
-		document.getElementById('output').innerHTML+=$(this).html();	
+// numbers, CA, =
+$(".calcButton").click(function() {
+		var current = $('#output').text();
+			var calcButton = $(this).text();
+				$('#output').text(current+calcButton);	
 	});
-});
-
-$(function addOp(){
-	$(".calcButtonOp").click(function() {
-		document.getElementById('output').innerHTML+=this.value;
+// +, -, /
+$(".calcButtonOp").click(function() {
+		var current = $('#output').text();
+			var calcButtonOp = $(this).text();
+				$('#output').text(current+calcButtonOp);	
 	});
-});
-
-$(function clear(){
-	$("#clear").click(function() {
-		document.getElementById('output').innerHTML=null;
+// CA clears
+$("#clear").click(function() {
+		var current = $('#output').text();
+				$('#output').text(null);	
 	});
-});
-
-function evaluate(){
-	eval($("#output").innerHTML)
-	//grab innerhtml of #output and eval it when user hits equals
-};
-
+//Equals function evaluates
+$("#equals").click(function() {
+		var current = $('#output').text();
+			$('#output').text(eval(current));	
+	});
 
 //If no numbers added do not allow operands to be added, IF number added, 
 // allow operands, IF operand added, do not allow another operand to be added

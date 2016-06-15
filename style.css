@@ -27,7 +27,7 @@ h1 {
 
 }
 
-.calcButton {
+.calcButton, .calcButtonEq {
 	height: 10%;
 	width: 25%;
 	color: black;
@@ -38,6 +38,8 @@ h1 {
 	display: inline-block;
 	margin: 2%;
 	background: rgba(233, 233, 233,1);
+	text-align: center;
+	font-family: 'Gloria Hallelujah', cursive;
 }
 
 .calcButtonOp {
@@ -51,10 +53,12 @@ h1 {
 	display: inline-block;
 	margin: 2%;
 	background: rgba(233, 233, 233,1);
+	text-align: center;
+	font-family: 'Gloria Hallelujah', cursive;
 
 }
 
-.calcButton:active, .calcButtonOp:active {
+.calcButton:active, .calcButtonOp:active, .calcButtonEq:active {
 	background: white;
 }
 
