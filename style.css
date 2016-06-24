@@ -5,31 +5,42 @@ h1 {
 	font-family: 'Gloria Hallelujah', cursive;
 
 }
+
+div {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* Internet Explorer/Edge */
+  user-select: none;           /* Non-prefixed version, currently
+                                  not supported by any browser */
+}
+
 #calcBody {
 	border: 2px solid black;
 	border-radius: 5px;
-	width: 400px;
+	width: 500px;
 	height: 300px;
-	margin: 1% auto;
-	padding: 2%;
+	margin: 2% auto;
+	padding: 3% 1% 3% 1%;
 }
 
 #output{
-	height: 30px;
-	width: 395px;
+	height: 15%;
+	width: 78%;
 	color: black;
 	outline: none;
 	border: 1px solid black;
 	border-radius: 5px;
-	font-size: 1em;
+	font-size: 2em;
 	display: inline-block;
 	margin: 20 auto;
 
 }
 
-.calcButton, .calcButtonEq {
+.numBut, .periodBut, .clearBut {
 	height: 10%;
-	width: 25%;
+	width: 15%;
 	color: black;
 	outline: none;
 	border: 1px solid black;
@@ -42,23 +53,39 @@ h1 {
 	font-family: 'Gloria Hallelujah', cursive;
 }
 
-.calcButtonOp {
-	height: 10%;
-	width: 10%;
+.eqBut {
+	height: 15%;
+	width: 77%;
 	color: black;
+	outline: none;
+	border: 1px solid black;
+	border-radius: 5px;
+	font-size: 1.5em;
+	display: inline-block;
+	margin: 2%;
+	background: rgba(233, 233, 233,1);
+	text-align: center;
+	font-family: 'Gloria Hallelujah', cursive;
+}
+
+.operBut {
+	height: 10%;
+	width: 15%;
+	color: white;
+	background: black;
 	outline: none;
 	border: 1px solid black;
 	border-radius: 5px;
 	font-size: 1em;
 	display: inline-block;
 	margin: 2%;
-	background: rgba(233, 233, 233,1);
+	
 	text-align: center;
 	font-family: 'Gloria Hallelujah', cursive;
 
 }
 
-.calcButton:active, .calcButtonOp:active, .calcButtonEq:active {
+.operBut:active, .eqBut:active, .numBut:active, .periodBut:active {
 	background: white;
 }
 
@@ -67,7 +94,7 @@ h1 {
 	color: white;
 }
 
-#equals:active, #clear:active {
+#equals:active, #clear:active, .calcButtonOp:active {
 	background: white;
 	color: black;
 }

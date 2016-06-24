@@ -1,40 +1,44 @@
-// numbers, CA, =
-$(".calcButton").click(function() {
+// numbers, CA
+$(document).ready(function() {
+	$(".numBut").click(function() {
+		if (eqClicked == true) {
+			clear();
+			eqClicked = false;	
+			//do not allow operators to be added to results, if op clicked clear output and do not put op in output	
+		};
 		var current = $('#output').text();
-			var calcButton = $(this).text();
-				$('#output').text(current+calcButton);	
+		var numBut = $(this).text();
+		$('#output').text(current+numBut);
+				
 	});
-// +, -, /
-$(".calcButtonOp").click(function() {
+	// +, -, /
+	var opClicked = false;
+	$(".operBut").click(function() {
+		opClicked = true;
+		if (opClicked == true) {
+			//do not allow additional operators to be added
+		}
 		var current = $('#output').text();
-			var calcButtonOp = $(this).text();
-				$('#output').text(current+calcButtonOp);	
+		var calcButtonOp = $(this).text();
+		$('#output').text(current+calcButtonOp);	
+		console.log(opClicked)	
 	});
-// CA clears
-$("#clear").click(function() {
-		var current = $('#output').text();
-				$('#output').text(null);	
-	});
-//Equals function evaluates
-$("#equals").click(function() {
-		var current = $('#output').text();
-			$('#output').text(eval(current));	
+	// CA clears
+	$("#clear").click(function() {
+		clear();					
 	});
 
-//If no numbers added do not allow operands to be added, IF number added, 
-// allow operands, IF operand added, do not allow another operand to be added
-/*
-function allowOp(){
-	if (no numbers have been added to output box){
-		do not allow operands to be added
-	} else if (numbers have been added to output box) {
-		allow operand to be added
-	} else if (if one operand has been added){
-		do not allow any more operands to be added
-	} else {
-		console.log(the error)
+	function clear(){
+		$('#output').text(null);
 	}
 
-};
-*/
+	//Equals function evaluates
+	var eqClicked = false;
+	$("#equals").click(function() {
+		eqClicked = true;
+		var current = $('#output').text();
+		$('#output').text(eval(current))
+		console.log(eqClicked);
+	});
+});
 
