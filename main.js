@@ -91,27 +91,33 @@ $(document).ready(function() {
 		for (var i = current.length - 1; i >= 0 && !found; i--) {
 			var prevIDX = i-1
 			var isPrevOp = isItOp(current[i - 1]) //feed current index -1 into isItOp to see if it is an operator
-			if (isItOp(current[i])) {
-				return;
-			} else if (isPrevOp) { //one operator
+			
+			//if (isPrevOp) { //one operator
 				
-				if (prevIDX-1 >=0 && isItOp(current[i-2])) { //two operators 1--1
-					var before = current.slice(0, i-1)
-					var after = current.slice(i-1, current.length)
-					$('#output').text(before + after*-1);
-					found = true;
-				} else if (current[prevIDX] === '-') { // 1-1
-					$('#output').text(current*-1);
-					found = true;
-				} else { // ? one operator?
-					var before = current.slice(0, i)
-					var after = current.slice(i, current.length)
-					$('#output').text(before + after*-1);
-					found = true;
-				}
+			if (isItOp(current[i])) { // ? one operator?
+				var before = current.slice(i, current.length)
+				var after = current.slice(0, i)
+				$('#output').text(after*-1 + before);
+				found = true;
+			}  else if (prevIDX-1 >=0 && isItOp(current[i-2])) { //two operators 1--1
+				var before = current.slice(0, i-1)
+				var after = current.slice(i-1, current.length)
+				$('#output').text(before + after*-1);
+				found = true;
+			} else if (current[prevIDX] === '-') { // 1-1
+				var before = current.slice(0, i)
+				var after = current.slice(i, current.length)
+				$('#output').text(before + after*-1);
+				found = true;
+			} else if (isPrevOp){
+				var before = current.slice(0, i)
+				var after = current.slice(i-1, current.length)
+				$('#output').text(before + after*-1);
+				found = true;
 			} else if (prevIDX < 0) {
 				$('#output').text(current*-1);
 				found = true;
+			 	
 			}
 		}
 	});
