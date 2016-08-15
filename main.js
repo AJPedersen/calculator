@@ -72,53 +72,83 @@ $(document).ready(function() {
 		return isOp;
 	};
 
-	/*
-	var current = $('#output').text();
-
-			if ( current.indexOf("-") == 0 ){ 
-			   //current = current.substring(1);
-			   $('#output').text(current.substring(1));
-	         } else { 
-	         	//current = "-" + current;
-	         	$('#output').text("-" + current);
-	         };
-	*/
-
+	//Sign operator
 	$(".posNegBut").click(function() {
 	
 		var current = $('#output').text();
 		var found = false;
+		var twoOp = false;
+		var hasFoundNum = false;
+		var numFound = false;
+		var itsOp = false;
 		for (var i = current.length - 1; i >= 0 && !found; i--) {
-			var prevIDX = i-1
-			var isPrevOp = isItOp(current[i - 1]) //feed current index -1 into isItOp to see if it is an operator
-			
+			var prevIDX = i-1;
+			var prevPrevIDX = i-2;
+			var isPrevOp = isItOp(current[i - 1]); //feed current index -1 into isItOp to see if it is an operator
+			var hasFoundNum = false;
 			//if (isPrevOp) { //one operator
+				if (current[i] >= 0 && !hasFoundNum) { //current i is a number
+				numFound = true; // number found
 				
-			if (isItOp(current[i])) { // ? one operator?
+			} else if (isItOp && !hasFoundNum) { //current i is operator
+				itsOp = true;
+				
+			} else if (current[i] >= 0 && hasFoundNum) { // current i is a number and number has been found
+				hasFoundNum = true;
+				
+			};
+
+
+			if (prevIDX < 0) { //only #'s
+				$('#output').text(current*-1);
+				found = true;
+			 	return;
+			} else if (isItOp && hasFoundNum) { // current i is an operator and number has been found
+				var before = current.slice(i, current.length) //3/3/
+				var after = current.slice(i, i)
+				$('#output').text(before + after*-1);
+				found = true;
+			} else if (isItOp(current[i])) { // ? one operator?
 				var before = current.slice(i, current.length)
 				var after = current.slice(0, i)
 				$('#output').text(after*-1 + before);
 				found = true;
-			}  else if (prevIDX-1 >=0 && isItOp(current[i-2])) { //two operators 1--1
+				if (prevIDX-1 > 0) {
+					var before = current.slice(i, current.length)
+					var after = current.slice(i+1, current.length)
+					$('#output').text(before + after*-1);
+					found = true;
+				}
+			}  else if (prevPrevIDX >0 && isItOp(current[i-2])) { //two operators 1--1
 				var before = current.slice(0, i-1)
 				var after = current.slice(i-1, current.length)
 				$('#output').text(before + after*-1);
 				found = true;
-			} else if (current[prevIDX] === '-') { // 1-1
+				twoOp = true;
+				if (prevIDX-1 >=0 && isItOp(current[i-2]) && isItOp(current[i-3])) {
+					var before = current.slice(0, i-2)
+					var after = current.slice(i-2, current.length)
+					$('#output').text(before + after*-1);
+					found = true;
+					return;
+				}
+			} else if (current[prevIDX] === '-' ) { // 1-1
 				var before = current.slice(0, i)
 				var after = current.slice(i, current.length)
 				$('#output').text(before + after*-1);
 				found = true;
+				if (prevIDX-1 < 0) {
+					var before = current.slice(0, i-1)
+					var after = current.slice(i-1, current.length)
+					$('#output').text(before + after*-1);
+					found = true;
+				}
 			} else if (isPrevOp){
 				var before = current.slice(0, i)
-				var after = current.slice(i-1, current.length)
+				var after = current.slice(i, current.length)
 				$('#output').text(before + after*-1);
 				found = true;
-			} else if (prevIDX < 0) {
-				$('#output').text(current*-1);
-				found = true;
-			 	
-			}
+			}  
 		}
 	});
 
