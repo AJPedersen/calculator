@@ -85,9 +85,13 @@ $(document).ready(function() {
 			var prevIDX = i-1;
 			var prevPrevIDX = i-2;
 			var isPrevOp = isItOp(current[i - 1]); //feed current index -1 into isItOp to see if it is an operator
+			var isPrevPrevOp = isItOp(current[i - 2]);
+			var isPrevNum = current.charAt(current[i - 1]) >= 0;
+			var isFirstNum = current.charAt(0) >= 0;
 			var hasFoundNum = false;
 			//if (isPrevOp) { //one operator
-				if (current[i] >= 0 && !hasFoundNum) { //current i is a number
+
+			if (current[i] >= 0 && !hasFoundNum) { //current i is a number
 				numFound = true; // number found
 				
 			} else if (isItOp && !hasFoundNum) { //current i is operator
@@ -99,16 +103,23 @@ $(document).ready(function() {
 			};
 
 
-			if (prevIDX < 0) { //only #'s
-				$('#output').text(current*-1);
+			if (numFound) { //only #'s
+				$('#output').text(current + '-');
 				found = true;
-			 	return;
-			} else if (isItOp && hasFoundNum) { // current i is an operator and number has been found
-				var before = current.slice(i, current.length) //3/3/
-				var after = current.slice(i, i)
-				$('#output').text(before + after*-1);
+				if (current.endsWith('-') && isPrevNum) {
+					var sliceItBaby = current.slice(0, i)
+					$('#output').text(sliceItBaby);
+					found = true;
+				}
+			} 	else if (isItOp && hasFoundNum) { // current i is an operator and number has been found
+				$('#output').text(current + '-');
 				found = true;
-			} else if (isItOp(current[i])) { // ? one operator?
+				if (current.endsWith('-') && isPrevNum) {
+					var sliceItBaby = current.slice(0, i)
+					$('#output').text(sliceItBaby);
+					found = true;
+				}
+			} else if (isItOp(current[i]) && !itsOp) { // ? one operator?
 				var before = current.slice(i, current.length)
 				var after = current.slice(0, i)
 				$('#output').text(after*-1 + before);
@@ -119,8 +130,31 @@ $(document).ready(function() {
 					$('#output').text(before + after*-1);
 					found = true;
 				}
-			}  else if (prevPrevIDX >0 && isItOp(current[i-2])) { //two operators 1--1
-				var before = current.slice(0, i-1)
+			}   else if (current.endsWith('-') && isPrevOp) {
+				var sliceItBaby = current.slice(0, i)
+				$('#output').text(sliceItBaby);
+				found = true;
+			}	else if (itsOp && isPrevNum) {
+				$('#output').text(current + '-');
+				found = true;
+			
+			}	else if (prevPrevIDX >0 && isItOp(current[i-2]) && !itsOp) { //two operators 1--1
+				$('#output').text(current + '-');
+				found = true;
+				if (current.endsWith('-') && isPrevNum) {
+					var sliceItBaby = current.slice(0, i)
+					$('#output').text(sliceItBaby);
+					found = true; 
+				} else if (isItOp) {
+				$('#output').text(current + '-');
+				found = true;
+				if (current.endsWith('-') && isPrevOp) {
+					var sliceItBaby = current.slice(0, i)
+					$('#output').text(sliceItBaby);
+					found = true;
+				}
+			}
+				/*var before = current.slice(0, i-1)
 				var after = current.slice(i-1, current.length)
 				$('#output').text(before + after*-1);
 				found = true;
@@ -131,8 +165,11 @@ $(document).ready(function() {
 					$('#output').text(before + after*-1);
 					found = true;
 					return;
-				}
-			} else if (current[prevIDX] === '-' ) { // 1-1
+				} */
+			}	  
+		}
+	});
+			/*else if (current[prevIDX] === '-' ) { // 1-1
 				var before = current.slice(0, i)
 				var after = current.slice(i, current.length)
 				$('#output').text(before + after*-1);
@@ -143,36 +180,14 @@ $(document).ready(function() {
 					$('#output').text(before + after*-1);
 					found = true;
 				}
-			} else if (isPrevOp){
+
+				else if (isPrevOp){
 				var before = current.slice(0, i)
 				var after = current.slice(i, current.length)
 				$('#output').text(before + after*-1);
 				found = true;
-			}  
-		}
-	});
-
-
-			/*
-			if (isPrevOp == false) { //no operator
-				$('#output').text(current[(i*(-1))]); //if no op then put neg sign in front of current index
-			} else if (	isPrevOp == true ){ //one operator
-				$('#output').text(current[(i*(-1))]); //if one operator put neg sign in front of current index
-			} else if(current[i - 1] && isPrevOp == true){ //double operator??
-				//current = '-'+current.charAt(i) 
-				//$('#output').text("-" + current);
-				//erase first operator (has to be -) that for loop finds (one closest to the #) //use varname.replace?
-				// could slice before i and after i and then go ibefore+'-'+iafter 
-				var doubleOp = current(i-1)
-				var before = current.slice(0, i)
-				var after = current.slice(i, current.length)
-				$('#output').text(before + '-' + after);
-		} else {
-			$('#output').text(current('*-1'));
-			//remove neg sign (ie now its positive)
-		}
-	  } */
-	
+			}
+			}*/		
 
 	function isItNeg(n){
 		if (n < 0) {
