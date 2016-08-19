@@ -19,9 +19,11 @@ $(document).ready(function() {
 	
 	// +, -, /, * Need to store current value in prevVal on op click and then clear current.
 	var opClicked = true;
+	var opHasClick = false;
 	$(".operBut").click(function() {
 		var current = $('#output').text();
 		canDec = true;
+		opHasClick = true;
 		if (opClicked == false) {
 			
 			var calcButtonOp = $(this).text();
@@ -87,10 +89,11 @@ $(document).ready(function() {
 			var isPrevOp = isItOp(current[i - 1]); //feed current index -1 into isItOp to see if it is an operator
 			var isPrevPrevOp = isItOp(current[i - 2]);
 			var isPrevNum = current.charAt(current[i - 1]) >= 0;
+			var neg1Char = current.charAt(current[i - 1]);
 			var isFirstNum = current.charAt(0) >= 0;
 			var hasFoundNum = false;
-			//if (isPrevOp) { //one operator
 
+		// ------------------- \/\/ number found, operator found logic
 			if (current[i] >= 0 && !hasFoundNum) { //current i is a number
 				numFound = true; // number found
 				
@@ -101,24 +104,40 @@ $(document).ready(function() {
 				hasFoundNum = true;
 				
 			};
-
-
-			if (numFound) { //only #'s
-				$('#output').text(current + '-');
+		// ------------------- \/\/ posNegBut logic
+			 if (numFound && !opHasClick) { //only #'s
+				$('#output').text(current*-1);
 				found = true;
-				if (current.endsWith('-') && isPrevNum) {
-					var sliceItBaby = current.slice(0, i)
-					$('#output').text(sliceItBaby);
-					found = true;
-				}
-			} 	else if (isItOp && hasFoundNum) { // current i is an operator and number has been found
-				$('#output').text(current + '-');
+			}	else if (numFound && isPrevOp) {
+				var before = current.slice(0, i)
+				var after = current.slice(i)
+				$('#output').text(before + after*-1);
 				found = true;
-				if (current.endsWith('-') && isPrevNum) {
-					var sliceItBaby = current.slice(0, i)
-					$('#output').text(sliceItBaby);
+					if (numFound && isPrevPrevOp) {
+						var before = current.slice(0, i-1)
+						var after = current.slice(i-1, current.length)
+						$('#output').text(before + after*-1);
+						found = true;
+					} 
+			}	else if (numFound && opHasClick) {
+				var before = current.slice(0, i)
+				var after = current.slice(i)
+				$('#output').text(before + after*-1);
+				found = true;
+					if (numFound && isPrevPrevOp) {
+						var before = current.slice(0, i-1)
+						var after = current.slice(i-1, current.length)
+						$('#output').text(before + after*-1);
+						found = true;
+					}
+			}	else if (isItOp && hasFoundNum) { // current i is an operator and number has been found
+					$('#output').text(current + '-');
 					found = true;
-				}
+					if (current.endsWith('-') && isPrevNum) {
+						var sliceItBaby = current.slice(0, i)
+						$('#output').text(sliceItBaby);
+						found = true;
+					}
 			} else if (isItOp(current[i]) && !itsOp) { // ? one operator?
 				var before = current.slice(i, current.length)
 				var after = current.slice(0, i)
@@ -130,14 +149,26 @@ $(document).ready(function() {
 					$('#output').text(before + after*-1);
 					found = true;
 				}
-			}   else if (current.endsWith('-') && isPrevOp) {
+			}   else if (current.endsWith('-') && opClicked) {
+				$('#output').text(current + '-');
+				found = true;
+				if (current.endsWith('-') && isPrevOp) {
+					var sliceItBaby = current.slice(0, i)
+					$('#output').text(sliceItBaby);
+					found = true;
+				}
+			}	else if (current.endsWith('-') && isPrevOp) {
 				var sliceItBaby = current.slice(0, i)
 				$('#output').text(sliceItBaby);
 				found = true;
 			}	else if (itsOp && isPrevNum) {
 				$('#output').text(current + '-');
 				found = true;
-			
+				if (current.endsWith('-') && isPrevNum) {
+					var sliceItBaby = current.slice(0, i)
+					$('#output').text(sliceItBaby);
+					found = true;
+				}
 			}	else if (prevPrevIDX >0 && isItOp(current[i-2]) && !itsOp) { //two operators 1--1
 				$('#output').text(current + '-');
 				found = true;
@@ -145,7 +176,7 @@ $(document).ready(function() {
 					var sliceItBaby = current.slice(0, i)
 					$('#output').text(sliceItBaby);
 					found = true; 
-				} else if (isItOp) {
+			}	else if (isItOp) {
 				$('#output').text(current + '-');
 				found = true;
 				if (current.endsWith('-') && isPrevOp) {
@@ -216,6 +247,11 @@ $(document).ready(function() {
 	};
 
 	function solve() {
+
+		for (var i = current.length - 1; i >= 0 && !found; i--) {
+			//Needs to go through and slice in () around -- so 1--2+0--9 would become 1-(-2)+0-(-9)
+			//bunch of if statements here
+		}
 		var current = $('#output').text();
 		var evalIt = eval(current);
 		isItNan(evalIt);
