@@ -54,6 +54,7 @@ $(document).ready(function() {
 		opClicked = true;
 		canDec = true;
 		numClicked = false;
+		opHasClick = false;
 	};
 
 	//figures out if x is an operator
@@ -75,150 +76,27 @@ $(document).ready(function() {
 	};
 
 	//Sign operator
-	$(".posNegBut").click(function() {
-	
-		var current = $('#output').text();
-		var found = false;
-		var twoOp = false;
-		var hasFoundNum = false;
-		var numFound = false;
-		var itsOp = false;
+	$(".posNegBut").click(function() {	
 		for (var i = current.length - 1; i >= 0 && !found; i--) {
-			var prevIDX = i-1;
-			var prevPrevIDX = i-2;
-			var isPrevOp = isItOp(current[i - 1]); //feed current index -1 into isItOp to see if it is an operator
-			var isPrevPrevOp = isItOp(current[i - 2]);
-			var isPrevNum = current.charAt(current[i - 1]) >= 0;
-			var neg1Char = current.charAt(current[i - 1]);
-			var isFirstNum = current.charAt(0) >= 0;
-			var hasFoundNum = false;
+			var opPresent = current.search('*' || '/' || '-' || '+'); // --> search 'current' string to find *,-,+,/
+			// ------------------- \/\/ CASE 1: number/s only -> 9, 99, 999
+			if (!opPresent) { // --> if no operators present in 'current' string
+				$('#output').text(current*-1); // --> multiply 'current' by -1
+				/* if () { // --> Remove '-'
+					var sliceItBaby = current.slice(0, i) // --> slice from index 0 to current i
+						$('#output').text(sliceItBaby); // --> return sliceItBaby as 'current'
+						found = true; // --> set found to false to end the loop
+				}
+			} // ------------------- \/\/ CASE 2: number/s plus operator/s -> 9+/-, 99+/-, 999+/-
+				else if () {
 
-		// ------------------- \/\/ number found, operator found logic
-			if (current[i] >= 0 && !hasFoundNum) { //current i is a number
-				numFound = true; // number found
-				
-			} else if (isItOp && !hasFoundNum) { //current i is operator
-				itsOp = true;
-				
-			} else if (current[i] >= 0 && hasFoundNum) { // current i is a number and number has been found
-				hasFoundNum = true;
-				
-			};
-		// ------------------- \/\/ posNegBut logic
-			 if (numFound && !opHasClick) { //only #'s
-				$('#output').text(current*-1);
-				found = true;
-			}	else if (numFound && isPrevOp) {
-				var before = current.slice(0, i)
-				var after = current.slice(i)
-				$('#output').text(before + after*-1);
-				found = true;
-					if (numFound && isPrevPrevOp) {
-						var before = current.slice(0, i-1)
-						var after = current.slice(i-1, current.length)
-						$('#output').text(before + after*-1);
-						found = true;
-					} 
-			}	else if (numFound && opHasClick) {
-				var before = current.slice(0, i)
-				var after = current.slice(i)
-				$('#output').text(before + after*-1);
-				found = true;
-					if (numFound && isPrevPrevOp) {
-						var before = current.slice(0, i-1)
-						var after = current.slice(i-1, current.length)
-						$('#output').text(before + after*-1);
-						found = true;
-					}
-			}	else if (isItOp && hasFoundNum) { // current i is an operator and number has been found
-					$('#output').text(current + '-');
-					found = true;
-					if (current.endsWith('-') && isPrevNum) {
-						var sliceItBaby = current.slice(0, i)
-						$('#output').text(sliceItBaby);
-						found = true;
-					}
-			} else if (isItOp(current[i]) && !itsOp) { // ? one operator?
-				var before = current.slice(i, current.length)
-				var after = current.slice(0, i)
-				$('#output').text(after*-1 + before);
-				found = true;
-				if (prevIDX-1 > 0) {
-					var before = current.slice(i, current.length)
-					var after = current.slice(i+1, current.length)
-					$('#output').text(before + after*-1);
-					found = true;
-				}
-			}   else if (current.endsWith('-') && opClicked) {
-				$('#output').text(current + '-');
-				found = true;
-				if (current.endsWith('-') && isPrevOp) {
-					var sliceItBaby = current.slice(0, i)
-					$('#output').text(sliceItBaby);
-					found = true;
-				}
-			}	else if (current.endsWith('-') && isPrevOp) {
-				var sliceItBaby = current.slice(0, i)
-				$('#output').text(sliceItBaby);
-				found = true;
-			}	else if (itsOp && isPrevNum) {
-				$('#output').text(current + '-');
-				found = true;
-				if (current.endsWith('-') && isPrevNum) {
-					var sliceItBaby = current.slice(0, i)
-					$('#output').text(sliceItBaby);
-					found = true;
-				}
-			}	else if (prevPrevIDX >0 && isItOp(current[i-2]) && !itsOp) { //two operators 1--1
-				$('#output').text(current + '-');
-				found = true;
-				if (current.endsWith('-') && isPrevNum) {
-					var sliceItBaby = current.slice(0, i)
-					$('#output').text(sliceItBaby);
-					found = true; 
-			}	else if (isItOp) {
-				$('#output').text(current + '-');
-				found = true;
-				if (current.endsWith('-') && isPrevOp) {
-					var sliceItBaby = current.slice(0, i)
-					$('#output').text(sliceItBaby);
-					found = true;
-				}
-			}
-				/*var before = current.slice(0, i-1)
-				var after = current.slice(i-1, current.length)
-				$('#output').text(before + after*-1);
-				found = true;
-				twoOp = true;
-				if (prevIDX-1 >=0 && isItOp(current[i-2]) && isItOp(current[i-3])) {
-					var before = current.slice(0, i-2)
-					var after = current.slice(i-2, current.length)
-					$('#output').text(before + after*-1);
-					found = true;
-					return;
 				} */
-			}	  
-		}
-	});
-			/*else if (current[prevIDX] === '-' ) { // 1-1
-				var before = current.slice(0, i)
-				var after = current.slice(i, current.length)
-				$('#output').text(before + after*-1);
-				found = true;
-				if (prevIDX-1 < 0) {
-					var before = current.slice(0, i-1)
-					var after = current.slice(i-1, current.length)
-					$('#output').text(before + after*-1);
-					found = true;
-				}
+			
+			// ------------------- \/\/ CASE 3: number/s plus operator/s plus number/s -> 9+/-9, 99+/-99, 999+/-999
+			// ------------------- \/\/ CASE 4: number/s plus operator/s plus number/s -> 9+/-9+/-, 99+/-99+/-, 999+/-999+/- (possibly same as CASE 2)
 
-				else if (isPrevOp){
-				var before = current.slice(0, i)
-				var after = current.slice(i, current.length)
-				$('#output').text(before + after*-1);
-				found = true;
-			}
-			}*/		
+		};
+	});	// START HERE 823??? WHY IS THIS MARKED AS WRONG?
 
 	function isItNeg(n){
 		if (n < 0) {
@@ -248,17 +126,19 @@ $(document).ready(function() {
 
 	function solve() {
 
-		for (var i = current.length - 1; i >= 0 && !found; i--) {
+		//for (var i = current.length - 1; i >= 0 && !found; i--) {
 			//Needs to go through and slice in () around -- so 1--2+0--9 would become 1-(-2)+0-(-9)
 			//bunch of if statements here
-		}
+		//
+	}
 		var current = $('#output').text();
 		var evalIt = eval(current);
 		isItNan(evalIt);
 		console.log(eqClicked);
 		eqClicked = true;
 		canDec = true;
-	}
+		opHasClick = false;
+	};
 
 	//Equals function evaluates
 	var eqClicked = false;
