@@ -55,6 +55,7 @@ $(document).ready(function() {
 		canDec = true;
 		numClicked = false;
 		opHasClick = false;
+		opClicked = false;
 	};
 
 	//figures out if x is an operator
@@ -75,28 +76,46 @@ $(document).ready(function() {
 		return isOp;
 	};
 
+	function opPresent(x){
+		var isOpPresent = false;
+
+		if (x.indexOf('-')) {
+			isOpPresent = true;
+		} else if (x.indexOf('+')) {
+			isOpPresent = true;
+		} else if (x.indexOf('*')) {
+			isOpPresent = true;
+		} else if (x.indexOf('/')) {
+			isOpPresent = true;
+		}
+		console.log(isOpPresent);
+		return isOpPresent;
+	}
+
 	//Sign operator
-	$(".posNegBut").click(function() {	
-		for (var i = current.length - 1; i >= 0 && !found; i--) {
-			var opPresent = current.search('*' || '/' || '-' || '+'); // --> search 'current' string to find *,-,+,/
-			// ------------------- \/\/ CASE 1: number/s only -> 9, 99, 999
-			if (!opPresent) { // --> if no operators present in 'current' string
-				$('#output').text(current*-1); // --> multiply 'current' by -1
-				/* if () { // --> Remove '-'
-					var sliceItBaby = current.slice(0, i) // --> slice from index 0 to current i
-						$('#output').text(sliceItBaby); // --> return sliceItBaby as 'current'
-						found = true; // --> set found to false to end the loop
-				}
-			} // ------------------- \/\/ CASE 2: number/s plus operator/s -> 9+/-, 99+/-, 999+/-
-				else if () {
+	$(".posNegBut").click(function() {
+		var current = $('#output').text();
+		var found = false;
 
-				} */
+		if (i === 0 && !isNan(current[0])) {
+			$('#output').text(current + '-');//add '-' to front
+			found = true;
+		} else if (current[i] === '-') {
+			if (i === 0) {]
+				var done = current.slice(1, current.length);
+				$('#output').text(done);
+				found = true;//remove - from front of string
+			} else if (!isNan(current[i-1])) {
+				//slice to add - after i
+			} else if (isOp(current[i-1])) {
+				//slice to remove i
+			}
+		} else if (isItOp(current[i] && current[i] !== '-')) {
+			//slice to add after i
+		}
+
 			
-			// ------------------- \/\/ CASE 3: number/s plus operator/s plus number/s -> 9+/-9, 99+/-99, 999+/-999
-			// ------------------- \/\/ CASE 4: number/s plus operator/s plus number/s -> 9+/-9+/-, 99+/-99+/-, 999+/-999+/- (possibly same as CASE 2)
-
-		};
-	});	// START HERE 823??? WHY IS THIS MARKED AS WRONG?
+	});	
 
 	function isItNeg(n){
 		if (n < 0) {
@@ -130,7 +149,7 @@ $(document).ready(function() {
 			//Needs to go through and slice in () around -- so 1--2+0--9 would become 1-(-2)+0-(-9)
 			//bunch of if statements here
 		//
-	}
+	
 		var current = $('#output').text();
 		var evalIt = eval(current);
 		isItNan(evalIt);
@@ -138,6 +157,7 @@ $(document).ready(function() {
 		eqClicked = true;
 		canDec = true;
 		opHasClick = false;
+		opClicked = false;
 	};
 
 	//Equals function evaluates
