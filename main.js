@@ -97,24 +97,42 @@ $(document).ready(function() {
 		var current = $('#output').text();
 		var found = false;
 
-		if (i === 0 && !isNan(current[0])) {
-			$('#output').text(current + '-');//add '-' to front
-			found = true;
-		} else if (current[i] === '-') {
-			if (i === 0) {]
-				var done = current.slice(1, current.length);
-				$('#output').text(done);
-				found = true;//remove - from front of string
-			} else if (!isNan(current[i-1])) {
-				//slice to add - after i
-			} else if (isOp(current[i-1])) {
-				//slice to remove i
-			}
-		} else if (isItOp(current[i] && current[i] !== '-')) {
-			//slice to add after i
-		}
+		for (var i = current.length - 1; i >= 0 && !found; i--) {
 
-			
+			if (i === 0 && !isNaN(current[0])) { //3 if reached beg and current i is # done
+				$('#output').text('-' + current);
+				found = true;
+				//add '-' to beg of string
+			} else if (/*i === 0 &&*/ current[i] === '-') { //4 current is '-' and i === 0
+				if (i === 0) {
+					var done = current.slice(1, current.length);
+					$('#output').text(done);
+					found = true;
+					//remove - from beg of string
+			  } else if (isItOp(current[i-1]) /*&& isItOp(current[i])*/) { //2 curr op and prev op remove
+					var before = current.slice(0, i)
+					var after = current.slice(i+1, current.length)
+					$('#output').text(before + after); 
+					found = true;
+					//slice to remove i
+				}	
+			}  else if (!isNaN(current[i-1]) && isNaN(current[i])) { //5 curr op and prev # add
+				var before = current.slice(0, i+1)
+				var after = current.slice(i+1, current.length)
+				$('#output').text(before + '-' + after); 
+				found = true;
+				//slice to add - after i
+			}  else if (current[i] === '.') { //curr .
+				$('#output').text(current); 
+				found = true;
+			} else if (isItOp(current[i] && current[i] !== '-')) { //1 curr non '-' op add
+				var done = current.slice(0, i);
+				$('#output').text(done + '-'); 
+				found = true;
+				//slice to add after i
+			}  
+
+		}
 	});	
 
 	function isItNeg(n){
