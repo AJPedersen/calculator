@@ -92,6 +92,10 @@ $(document).ready(function() {
 		return isOpPresent;
 	}
 
+	function isNumOrDec(x){ // Treat . or # as num
+		return (x === '.' || !isNaN(x))
+	};
+
 	//Sign operator
 	$(".posNegBut").click(function() {
 		var current = $('#output').text();
@@ -99,7 +103,7 @@ $(document).ready(function() {
 
 		for (var i = current.length - 1; i >= 0 && !found; i--) {
 
-			if (i === 0 && !isNaN(current[0])) { //3 if reached beg and current i is # done
+			if (i === 0 && isNumOrDec(current[0])) { //3 if reached beg and current i is # done
 				$('#output').text('-' + current);
 				found = true;
 				//add '-' to beg of string
@@ -115,17 +119,17 @@ $(document).ready(function() {
 					$('#output').text(before + after); 
 					found = true;
 					//slice to remove i
+				} else if (current[i] === '-') {
+					$('#output').text(current + '-'); 
+					found = true;
 				}	
-			}  else if (!isNaN(current[i-1]) && isNaN(current[i])) { //5 curr op and prev # add
+			}  else if (isNumOrDec(current[i-1]) && !isNumOrDec(current[i])) { //5 curr op and prev # add
 				var before = current.slice(0, i+1)
 				var after = current.slice(i+1, current.length)
 				$('#output').text(before + '-' + after); 
 				found = true;
 				//slice to add - after i
-			}  else if (current[i] === '.') { //curr .
-				$('#output').text(current); 
-				found = true;
-			} else if (isItOp(current[i] && current[i] !== '-')) { //1 curr non '-' op add
+			}  else if (isItOp(current[i] && current[i] !== '-')) { //1 curr non '-' op add
 				var done = current.slice(0, i);
 				$('#output').text(done + '-'); 
 				found = true;
@@ -146,36 +150,65 @@ $(document).ready(function() {
 	function isItNan(i) {
 		opClicked = false;
         numClicked = false;
+        canDec = false;
+        eqClicked = true;
         var foobar = parseFloat(i)
-        if (isNaN(foobar)) {
-        	foobar = "Error, try again"; 
+        var current = i;
+
+        if (isNaN(i)) {
+
+        	if (isNaN(foobar)) {
+        	current = "Error, try again"; 
         	opClicked = true; 
         	numClicked = true;
         	} else if (!isFinite(foobar)){
-        	foobar = "Error, try again";
+        	current = "Error, try again";
+        	opClicked = true;
+        	numClicked = true;
+        	} else if (i === 'NaN' || 'Infinity'){
+        	current = "Error, try again";
         	opClicked = true;
         	numClicked = true;
         	}
-        $('#output').text(foobar);
-        canDec = false;
-        eqClicked = true;
+        }
+
+        return current;
 	};
 
-	function solve() {
+	function addParen(x){
+		var addP = x.indexOf('--');
+		var current = x;
 
-		//for (var i = current.length - 1; i >= 0 && !found; i--) {
-			//Needs to go through and slice in () around -- so 1--2+0--9 would become 1-(-2)+0-(-9)
-			//bunch of if statements here
-		//
-	
+		if (addP >= 0) {
+			
+			var before = x.slice(0, addP+1)
+			var paren = x.slice(addP+1, addP+3)
+			var after = x.slice(addP+3, x.length)
+
+		 	current = before + '(' + paren + ')' + after;
+		}
+		
+		return current;
+	}
+
+	function solve() {
 		var current = $('#output').text();
-		var evalIt = eval(current);
-		isItNan(evalIt);
+		var paren = addParen(current);
+
+		var evalIt = eval(paren);
+		if (isNaN(paren)) {
+			var output = isItNan(evalIt);
+		} else {
+			var output = evalIt;
+		}
+
 		console.log(eqClicked);
 		eqClicked = true;
 		canDec = true;
 		opHasClick = false;
 		opClicked = false;
+
+		return $('#output').text(evalIt);
 	};
 
 	//Equals function evaluates
