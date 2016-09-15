@@ -196,10 +196,10 @@ $(document).ready(function() {
 		var paren = addParen(current);
 
 		var evalIt = eval(paren);
-		if (isNaN(paren)) {
-			var output = isItNan(evalIt);
-		} else {
-			var output = evalIt;
+		if (isNaN(evalIt) || evalIt === Infinity || evalIt === -Infinity) {
+			evalIt = "Error, try again";
+			opClicked = true; 
+        	numClicked = true;
 		}
 
 		console.log(eqClicked);
@@ -207,6 +207,7 @@ $(document).ready(function() {
 		canDec = true;
 		opHasClick = false;
 		opClicked = false;
+		
 
 		return $('#output').text(evalIt);
 	};
